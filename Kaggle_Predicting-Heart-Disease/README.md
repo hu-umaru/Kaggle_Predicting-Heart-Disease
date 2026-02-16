@@ -17,8 +17,8 @@
 -   ID列: `id`
 -   モデル: **ロジスティック回帰 (Logistic Regression)**
 -   前処理:
-    -   数値特徴量 → 中央値補完 + 標準化
-    -   カテゴリ特徴量 → 最頻値補完 + OneHotEncoding
+    -   数値特徴量 → 標準化
+    -   カテゴリ特徴量 → OneHotEncoding
 -   評価:
     -   ホールドアウト ROC-AUC (80/20 split)
     -   5-Fold Stratified Cross Validation (OOF ROC-AUC)
@@ -28,21 +28,19 @@
 ## 📂 想定ディレクトリ構成
 
     project/
-    │
-    ├── train.csv
-    ├── baseline.py
+    ├── data
+    │   ├── train.csv
+    │   ├── test.csv
+    │   └── sample_submission.csv
+    ├── model1.ipynb
     └── README.md
 
 Notebook環境で実行する場合は、`train.csv`
-が以下に配置されていることを確認してください。
-
-    /mnt/data/train.csv
+が正しく配置されていることを確認してください。
 
 ------------------------------------------------------------------------
 
-## 🚀 実行方法
-
-    python baseline.py
+## 🚀 実行
 
 実行すると以下が行われます。
 
@@ -56,7 +54,7 @@ Notebook環境で実行する場合は、`train.csv`
 
 保存先:
 
-    /mnt/data/oof_predictions.csv
+    /project/submission.csv
 
 ------------------------------------------------------------------------
 
@@ -65,9 +63,9 @@ Notebook環境で実行する場合は、`train.csv`
 出力ファイルは以下の形式になります。
 
     id,Heart Disease
-    630000,0.20341
-    630001,0.31455
-    630002,0.10422
+    630000,0.20
+    630001,0.30
+    630002,0.10
     ...
 
 -   `id` : サンプルID
@@ -107,16 +105,6 @@ Out-of-Fold (OOF) 予測を生成し、全体AUCを計算します。
     5-Fold OOF ROC-AUC = roc_auc_score(y, oof_predictions)
 
 より信頼性の高いベースライン指標となります。
-
-------------------------------------------------------------------------
-
-## 🧪 （オプション）テストデータ予測
-
-`test.csv` がある場合、コード内の test 部分を有効化すると、
-
-    /mnt/data/submission.csv
-
-として保存されます。
 
 ------------------------------------------------------------------------
 
